@@ -1,3 +1,4 @@
+import random
 import abc
 
 
@@ -47,13 +48,18 @@ class DungeonInterface(metaclass=abc.ABCMeta):
 class Creature(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
-    def __init__(self, identifier: str):
+    def __init__(self, identifier: str, position: list, base_attack: int, base_ac: int, damage: int):
         self.map_identifier = identifier
-
+        self.position = position
+        self.base_attack = base_attack
+        self.base_ac = base_ac
+        self.damage = damage
 
     def attack(self):
         """
-
-        :return:
+        :return: random number representing 1d20 as attack and random number 1d6 as damage
         """
-        raise NotImplementedError
+        return {"attack_roll": self.base_attack + random.randint(1, 20),
+                "inflicted_damage": sum([random.randint(1, 6) for x in range(self.damage)])}
+
+
