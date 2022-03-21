@@ -1,19 +1,17 @@
-from abstract_classes import DungeonInterface
+from abstract_classes import AbstractDungeon
 import random
 from datetime import datetime
 from copy import deepcopy
 from map_entities import Hero, Goblin
 
 
-class Dungeon(DungeonInterface):
+class Dungeon(AbstractDungeon):
 
     def __init__(self, size: tuple, tunnels_number: int, hero_name: str):
         super().__init__(size)
         self.hero = Hero(identifier="@", position=[1, 1], name=hero_name, base_attack=5, base_ac=3, damage=1)
-        self.size = size
         self.tunnels_number = tunnels_number
         self.entities = []
-        self.actual_dungeon_map = []
         self.empty_space = []
         self.starting_entities = ["goblin", "goblin"]
         self.fighting = False
@@ -21,7 +19,7 @@ class Dungeon(DungeonInterface):
 
     def __str__(self):
         printable_map = ""
-        for column in self.actual_dungeon_map:
+        for column in self.current_map:
             for row in column:
                 printable_map += row
             printable_map += "\n"
@@ -71,8 +69,8 @@ class Dungeon(DungeonInterface):
         self.empty_space = list(map(list, set(self.empty_space)))
         self.dungeon_map[1][1] = "."
         self.place_entities()
-        self.actual_dungeon_map = deepcopy(self.dungeon_map[:])
-        self.actual_dungeon_map[1][1] = "@"
+        self.current_map = deepcopy(self.dungeon_map[:])
+        self.current_map[1][1] = "@"
 
     def place_entities(self):
         positions = random.sample(self.empty_space, len(self.starting_entities))
@@ -114,8 +112,8 @@ class Dungeon(DungeonInterface):
             exit(0)
 
     def update_map(self, entities):
-        self.actual_dungeon_map = deepcopy(self.dungeon_map)
-        self.actual_dungeon_map[self.hero.position[0]][self.hero.position[1]] = self.hero.map_identifier
+        self.current_map = deepcopy(self.dungeon_map)
+        self.current_map[self.hero.position[0]][self.hero.position[1]] = self.hero.map_identifier
 
     def fight(self, monster):
         hero_roll = self.hero.attack()

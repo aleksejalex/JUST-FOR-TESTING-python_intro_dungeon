@@ -2,19 +2,18 @@ import random
 import abc
 
 
-class DungeonInterface(metaclass=abc.ABCMeta):
-    @abc.abstractmethod
+class AbstractDungeon(abc.ABC):
+
     def __init__(self, size: tuple):
         self.size = size
         self.dungeon_map = []
+        self.current_map = []
 
     @abc.abstractmethod
     def create_dungeon(self):
         """
         Generates dungeon. The size of dungeon is given by tuple self.size.
         Entrance is always located at position (1,1)
-        . - empty space
-        ▓ - wall
         """
         raise NotImplementedError
 
@@ -22,7 +21,7 @@ class DungeonInterface(metaclass=abc.ABCMeta):
     def place_entities(self, entities: list):
         """
         Place entities in list to random places in created dungeon.
-        Player is placed into entrance at position (1,1).
+        Player is placed at position (1,1).
         """
         raise NotImplementedError
 
@@ -30,17 +29,13 @@ class DungeonInterface(metaclass=abc.ABCMeta):
     def hero_action(self, direction):
         """
         Method to update the position of hero in the map.
-        :param direction:
-        :return: self.actual_dungeon_map
         """
         raise NotImplementedError
 
     @abc.abstractmethod
-    def update_map(self, entities):
+    def update_map(self, entities: list):
         """
         Update map with new position of entities.
-        :param entities:
-        :return: self.actual_dungeon_map
         """
         raise NotImplementedError
 

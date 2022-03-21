@@ -4,7 +4,7 @@ from dungeon import Dungeon
 
 if __name__ == "__main__":
     # create dungeon
-    hero_name = input("What is your hero name? ")
+    hero_name = input("What is your name, hero? ")
     dungeon = Dungeon((10, 20), 40, hero_name)
     dungeon.create_dungeon()
     while True:
@@ -18,6 +18,3 @@ if __name__ == "__main__":
         else:
             print("You coward!")
             exit(0)
-
-
-
